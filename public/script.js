@@ -13,7 +13,6 @@ socket.on('chat message', function (msg) {
 document.getElementById('send-btn').onclick = function () {
     const messageInput = document.getElementById('message-input');
     const message = messageInput.value;
-
     if (message.trim() !== '') {
         socket.emit('chat message', `Anonymous: ${message}`);
         messageInput.value = ''; // Clear input after sending
