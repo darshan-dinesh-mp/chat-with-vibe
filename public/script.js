@@ -9,12 +9,24 @@ socket.on('chat message', function (msg) {
     chatLog.scrollTop = chatLog.scrollHeight; // Auto scroll to bottom
 });
 
-// Send message
+// Send message when clicking the send button
 document.getElementById('send-btn').onclick = function () {
+    sendMessage();
+};
+
+// Send message when pressing the Enter key
+document.getElementById('message-input').addEventListener('keydown', function (event) {
+    if (event.key === 'Enter') {
+        sendMessage();
+    }
+});
+
+// Function to send the message
+function sendMessage() {
     const messageInput = document.getElementById('message-input');
     const message = messageInput.value;
     if (message.trim() !== '') {
         socket.emit('chat message', `Anonymous: ${message}`);
         messageInput.value = ''; // Clear input after sending
     }
-};
+}
