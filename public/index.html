@@ -9,14 +9,17 @@
 </head>
 
 <body>
-    <div class="chat-container" id="chat-container">
-        <div class="chat-messages" id="chat-log">
-            <!-- Messages will be displayed here -->
-        </div>
-        <div class="chat-input" id="chat-input">
-            <input type="text" id="message-input" placeholder="Type your message...">
-            <button id="send-btn">Send</button>
-        </div>
+    <header class="chat-header">
+        <h1>Global Chat</h1>
+    </header>
+
+    <div class="chat-messages" id="chatMessages"></div>
+
+    <div class="chat-input">
+        <form id="messageForm">
+            <input type="text" id="messageInput" placeholder="Type your message..." required>
+            <button type="submit">Send</button>
+        </form>
     </div>
 
     <script src="/socket.io/socket.io.js"></script>
