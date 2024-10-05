@@ -41,7 +41,7 @@ function createMessageElement(message) {
 
     const senderElement = document.createElement('div');
     senderElement.classList.add('message-sender');
-    senderElement.textContent = message.senderUsername || 'Anonymous';
+    senderElement.textContent = message.senderUsername;
 
     const textElement = document.createElement('div');
     textElement.textContent = message.content;
