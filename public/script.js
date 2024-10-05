@@ -5,7 +5,7 @@ socket.emit('set username', username);
 
 
 socket.on('chat message', function (msg) {
-    if (msg && msg.sender && msg.content && msg.timestamp) {
+    if (msg && msg.senderId && msg.senderUsername && msg.content && msg.timestamp) {
         addMessage(msg);
     }
 });
@@ -17,7 +17,8 @@ messageForm.addEventListener('submit', (e) => {
     if (content) {
         const message = {
             id: Date.now(),
-            sender: username || 'You',
+            senderId: socket.id,
+            senderUsername: username,
             content: content,
             timestamp: new Date()
         };
@@ -27,10 +28,11 @@ messageForm.addEventListener('submit', (e) => {
 });
 
 function createMessageElement(message) {
+
     const messageElement = document.createElement('div');
     messageElement.classList.add('message');
 
-    if (message.sender === username) {
+    if (message.senderId === socket.id) {
         messageElement.classList.add('own');
     }
 
@@ -39,7 +41,7 @@ function createMessageElement(message) {
 
     const senderElement = document.createElement('div');
     senderElement.classList.add('message-sender');
-    senderElement.textContent = message.sender || 'Anonymous';
+    senderElement.textContent = message.senderUsername || 'Anonymous';
 
     const textElement = document.createElement('div');
     textElement.textContent = message.content;

@@ -17,14 +17,12 @@ io.on('connection', (socket) => {
     // Listen for the username event from the client
     socket.on('set username', (username) => {
         users[socket.id] = { username };
-        console.log(`Username for ${socket.id} set to ${username}`);
     });
 
     // Listen for chat messages
     socket.on('chat message', (msg) => {
         const user = users[socket.id];
         if (user) {
-            msg.sender = user.username;
             io.emit('chat message', msg);
         }
     });
@@ -35,7 +33,7 @@ io.on('connection', (socket) => {
     });
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 2827;
 server.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
