@@ -1,6 +1,9 @@
 const socket = io();
 
-// Display incoming messages
+const username = prompt("What should we call you?");
+socket.emit('set username', username);
+
+
 socket.on('chat message', function (msg) {
     if (msg && msg.sender && msg.content && msg.timestamp) {
         addMessage(msg);
@@ -14,12 +17,12 @@ messageForm.addEventListener('submit', (e) => {
     if (content) {
         const message = {
             id: Date.now(),
-            sender: 'You', // Mark this message as from 'You'
+            sender: username || 'You',
             content: content,
             timestamp: new Date()
         };
-        socket.emit('chat message', message);  // Send message to server
-        messageInput.value = '';  // Clear input field
+        socket.emit('chat message', message);
+        messageInput.value = '';
     }
 });
 
@@ -27,9 +30,8 @@ function createMessageElement(message) {
     const messageElement = document.createElement('div');
     messageElement.classList.add('message');
 
-    // Check if the sender ID matches the current user's ID
-    if (message.senderId === socket.id) {
-        messageElement.classList.add('own'); // Align own messages to the right
+    if (message.sender === username) {
+        messageElement.classList.add('own');
     }
 
     const contentElement = document.createElement('div');
@@ -53,6 +55,7 @@ function createMessageElement(message) {
 
     return messageElement;
 }
+
 function addMessage(message) {
     const messageElement = createMessageElement(message);
     chatMessages.appendChild(messageElement);

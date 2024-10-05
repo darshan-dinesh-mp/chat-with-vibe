@@ -12,22 +12,26 @@ app.use(express.static('public'));
 const users = {};
 
 io.on('connection', (socket) => {
-    // Assign a unique ID (using socket.id) to the connected user
-    const userId = socket.id;
-    users[userId] = { id: userId }; // Store user ID
+    console.log(`User connected: ${socket.id}`);
 
-    console.log(`User connected: ${userId}`);
+    // Listen for the username event from the client
+    socket.on('set username', (username) => {
+        users[socket.id] = { username };
+        console.log(`Username for ${socket.id} set to ${username}`);
+    });
 
     // Listen for chat messages
     socket.on('chat message', (msg) => {
-        // Add the sender ID to the message object
-        msg.senderId = userId;
-        io.emit('chat message', msg); // Emit the message to all clients
+        const user = users[socket.id];
+        if (user) {
+            msg.sender = user.username;
+            io.emit('chat message', msg);
+        }
     });
 
     socket.on('disconnect', () => {
-        console.log(`User disconnected: ${userId}`);
-        delete users[userId]; // Remove user from the users list
+        console.log(`User disconnected: ${socket.id}`);
+        delete users[socket.id];
     });
 });
 
