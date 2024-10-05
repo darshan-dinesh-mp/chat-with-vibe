@@ -150,3 +150,19 @@ body {
         color: #ffffff;
     }
 }
+
+@media (max-width: 768px) {
+    .chat-input form {
+        display: flex;
+        gap: 0.5rem;
+        position: sticky;
+    }
+}
+
+@media (max-width: 480px) {
+    .chat-input form {
+        display: flex;
+        gap: 0.5rem;
+        position: sticky;
+    }
+}
