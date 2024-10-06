@@ -1,6 +1,9 @@
 const socket = io();
 
-const username = prompt("What should we call you?");
+var username = prompt("What should we call you?");
+while (username.trim() === '') {
+    username = prompt("Please provide a username.");
+}
 socket.emit('set username', username);
 
 
@@ -62,4 +65,12 @@ function addMessage(message) {
     const messageElement = createMessageElement(message);
     chatMessages.appendChild(messageElement);
     chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+
+document.getElementById("username").textContent = username;
+function changeUsername(message) {
+    if (confirm("Change username? \n⚠️Chat will be refreshed")) {
+        location.reload();
+    }
 }
