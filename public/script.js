@@ -1,17 +1,33 @@
 const socket = io();
 
-var username = prompt("What should we call you?");
-while (username.trim() === '') {
-    username = prompt("Please provide a username.");
+function requestUsername() {
+    let username = prompt("What should we call you?");
+    while (username.trim() === '') {
+        username = prompt("Please provide a username.");
+    }
+    socket.emit('set username', username);
 }
-socket.emit('set username', username);
 
+requestUsername();
 
+// Handle server response for username validation
+socket.on('username taken', (message) => {
+    document.getElementById("username").textContent = "You";
+    alert(message);
+    requestUsername();
+});
+
+socket.on('username accepted', (username) => {
+    document.getElementById("username").textContent = username;
+});
+
+// Display incoming messages
 socket.on('chat message', function (msg) {
     if (msg && msg.senderId && msg.senderUsername && msg.content && msg.timestamp) {
         addMessage(msg);
     }
 });
+
 
 // Function to send the message
 messageForm.addEventListener('submit', (e) => {
@@ -21,7 +37,7 @@ messageForm.addEventListener('submit', (e) => {
         const message = {
             id: Date.now(),
             senderId: socket.id,
-            senderUsername: username,
+            senderUsername: document.getElementById("username").textContent,
             content: content,
             timestamp: new Date()
         };
@@ -67,8 +83,6 @@ function addMessage(message) {
     chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
-
-document.getElementById("username").textContent = username;
 function changeUsername(message) {
     if (confirm("Change username? \n⚠️Chat will be refreshed")) {
         location.reload();

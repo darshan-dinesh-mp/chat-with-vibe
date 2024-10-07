@@ -16,7 +16,14 @@ io.on('connection', (socket) => {
 
     // Listen for the username event from the client
     socket.on('set username', (username) => {
-        users[socket.id] = { username };
+        const usernameExists = Object.values(users).some(user => user.username === username);
+
+        if (usernameExists) {
+            socket.emit('username taken', 'This username is already taken, please choose another one.');
+        } else {
+            users[socket.id] = { username };
+            socket.emit('username accepted', username);
+        }
     });
 
     // Listen for chat messages
