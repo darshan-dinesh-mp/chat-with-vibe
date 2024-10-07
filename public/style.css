@@ -21,6 +21,20 @@ body {
     font-size: 1.5rem;
 }
 
+#username {
+    font-size: 20px;
+    font-family: monospace;
+}
+
+#username-svg {
+    transition-duration: 0.2s;
+}
+
+#username-svg:hover {
+    cursor: pointer;
+    transform: scale(1.2);
+}
+
 .chat-messages {
     flex: 1;
     overflow-y: auto;
