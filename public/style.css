@@ -251,10 +251,6 @@ body {
 
 /* Responsive Styles */
 @media (max-width: 768px) {
-    .chat-header h1 {
-        font-size: 1.2rem;
-    }
-
     .room-section {
         flex-direction: column;
         padding: 1rem;
@@ -267,27 +263,6 @@ body {
     }
 
     .room-section button {
-        width: 100%;
-    }
-
-    .chat-messages {
-        padding: 0.5rem;
-    }
-
-    .message {
-        max-width: 80%;
-    }
-
-    .chat-input form {
-        flex-direction: column;
-        gap: 0.75rem;
-    }
-
-    .chat-input input {
-        width: 100%;
-    }
-
-    .chat-input button {
         width: 100%;
     }
 }
