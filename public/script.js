@@ -1,5 +1,8 @@
 const socket = io();
 
+
+let currentRoom = 'global';  // Default room
+
 function requestUsername() {
     let username = prompt("What should we call you?");
     while (username.trim() === '') {
@@ -21,6 +24,19 @@ socket.on('username accepted', (username) => {
     document.getElementById("username").textContent = username;
 });
 
+
+// Function to join or create a room
+function joinRoom() {
+    const room = document.getElementById('roomInput').value.trim();
+    if (room) {
+        socket.emit('join room', room);  // Emit event to join room
+        currentRoom = room;  // Update current room
+        document.getElementById('roomInput').value = '';  // Clear input
+        alert(`Joined room: ${room}`);
+    }
+}
+
+
 // Display incoming messages
 socket.on('chat message', function (msg) {
     if (msg && msg.senderId && msg.senderUsername && msg.content && msg.timestamp) {
@@ -39,7 +55,8 @@ messageForm.addEventListener('submit', (e) => {
             senderId: socket.id,
             senderUsername: document.getElementById("username").textContent,
             content: content,
-            timestamp: new Date()
+            timestamp: new Date(),
+            room: currentRoom,
         };
         socket.emit('chat message', message);
         messageInput.value = '';
@@ -47,7 +64,6 @@ messageForm.addEventListener('submit', (e) => {
 });
 
 function createMessageElement(message) {
-
     const messageElement = document.createElement('div');
     messageElement.classList.add('message');
 

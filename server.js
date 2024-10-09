@@ -10,6 +10,7 @@ app.use(express.static('public'));
 
 // Store connected users
 const users = {};
+const userRooms = {};  // New object to store the room each user is in
 
 io.on('connection', (socket) => {
     console.log(`User connected: ${socket.id}`);
@@ -23,20 +24,33 @@ io.on('connection', (socket) => {
         } else {
             users[socket.id] = { username };
             socket.emit('username accepted', username);
+            socket.join('global');  // Join default global room
+            userRooms[socket.id] = 'global';  // Store the user's current room
         }
+    });
+
+    // Handle room joining
+    socket.on('join room', (room) => {
+        socket.leave(userRooms[socket.id]);  // Leave the previous room
+        socket.join(room);  // Join the new room
+        userRooms[socket.id] = room;  // Update the user's current room
+        console.log(`${users[socket.id].username} joined room: ${room}`);
     });
 
     // Listen for chat messages
     socket.on('chat message', (msg) => {
         const user = users[socket.id];
+        const room = userRooms[socket.id];  // Get the user's current room
         if (user) {
-            io.emit('chat message', msg);
+            // Send message only to users in the same room
+            io.to(room).emit('chat message', msg);
         }
     });
 
     socket.on('disconnect', () => {
         console.log(`User disconnected: ${socket.id}`);
         delete users[socket.id];
+        delete userRooms[socket.id];  // Remove the user's room info on disconnect
     });
 });
 
