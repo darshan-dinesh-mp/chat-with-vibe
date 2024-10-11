@@ -249,7 +249,6 @@ body {
     }
 }
 
-/* Responsive Styles */
 @media (max-width: 768px) {
     .room-section {
         flex-direction: column;
