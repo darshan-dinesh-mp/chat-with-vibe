@@ -98,10 +98,6 @@ body {
     transform: translateY(-2px);
 }
 
-.room-section button:active {
-    transform: translateY(0);
-}
-
 /* Chat Messages */
 .chat-messages {
     flex: 1;
