@@ -1,10 +1,9 @@
 {
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "node server.js"
   },
   "dependencies": {
     "express": "^4.21.0",
-    "gitopus": "^2.0.9",
     "socket.io": "^4.8.0"
   }
 }
