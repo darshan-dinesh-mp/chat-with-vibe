@@ -3,7 +3,8 @@ const socket = io()
 let currentRoom = "global" // Default room
 
 function requestUsername() {
-  let username = prompt("What should we call you?")
+  // let username = prompt("What should we call you?")
+  let username = "darshan"
   while (username.trim() === "") {
     username = prompt("Please provide a username.")
   }

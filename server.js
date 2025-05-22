@@ -13,7 +13,7 @@ const users = {};
 const userRooms = {};  // New object to store the room each user is in
 
 io.on('connection', (socket) => {
-    console.log(`User connected: ${socket.id}`);
+    // console.log(`User connected: ${socket.id}`);
 
     // Listen for the username event from the client
     socket.on('set username', (username) => {
@@ -34,7 +34,7 @@ io.on('connection', (socket) => {
         socket.leave(userRooms[socket.id]);  // Leave the previous room
         socket.join(room);  // Join the new room
         userRooms[socket.id] = room;  // Update the user's current room
-        console.log(`${users[socket.id].username} joined room: ${room}`);
+        // console.log(`${users[socket.id].username} joined room: ${room}`);
     });
 
     // Listen for chat messages
@@ -48,7 +48,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on('disconnect', () => {
-        console.log(`User disconnected: ${socket.id}`);
+        // console.log(`User disconnected: ${socket.id}`);
         delete users[socket.id];
         delete userRooms[socket.id];  // Remove the user's room info on disconnect
     });

@@ -380,18 +380,20 @@ body {
 /* Responsive Styles */
 @media (max-width: 768px) {
   .room-section {
-    flex-direction: column;
-    padding: 1rem;
+    /* flex-direction: column; */
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
   }
 
   .room-section input {
-    width: 100%;
-    margin-right: 0;
-    margin-bottom: 0.75rem;
+    width: 70%;
+    font-size: small;
   }
 
   .room-section button {
-    width: 100%;
+    width: 30%;
+    font-size: small;
   }
 
   .message {
